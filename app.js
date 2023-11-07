@@ -11,41 +11,39 @@ const server = http.createServer((req, res) => {
 
   const createPath = (page) => path.resolve(__dirname, 'views', `${page}.html`)
 
-    let basePath = '';
+  let basePath = '';
 
-    switch (req.url) {
-      case '/home':
-      case '/':
-        basePath = createPath('index');
-        res.statusCode = 200;
-        break;
-        case '/about-us':
-          res.statusCode = 301;
-          res.setHeader('Location', '/contacts');
-          res.end();
-          break;
-        case '/contacts':
-          basePath = createPath('contacts');
-          res.statusCode = 200;
-          break;
-        default:
-          basePath = createPath('error');
-          res.statusCode = 404;
-          break;
-    }
+  switch (req.url) {
+    case '/home':
+    case '/':
+      basePath = createPath('index');
+      res.statusCode = 200;
+      break;
+    case '/about-us':
+      res.statusCode = 301;
+      res.setHeader('Location', '/contacts');
+      res.end();
+      break;
+    case '/contacts':
+      basePath = createPath('contacts');
+      res.statusCode = 200;
+      break;
+    default:
+      basePath = createPath('error');
+      res.statusCode = 404;
+      break;
+  }
 
   fs.readFile(basePath, (err, data) => {
     if (err) {
       console.log(err);
       res.statusCode = 500;
       res.end();
-    }
-
-    else {
+    } else {
       res.write(data);
       res.end();
     }
-    })
+  })
 });
 
 server.listen(PORT, 'localhost', (error) => {
