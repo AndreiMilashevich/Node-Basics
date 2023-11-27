@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const morgan = require('morgan');
 
 const PORT = 3000;
 const app = express();
@@ -12,8 +13,12 @@ app.listen(PORT,  (error) => {
   error ? console.log(error) : console.log(`listening port ${PORT}`);
 });
 
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+
+app.use(express.static('styles'));
+
 app.get('/', (req, res) => {
-  const title = 'home';
+  const title = 'Home';
   res.render(createPath('index'), {title});
 })
 
