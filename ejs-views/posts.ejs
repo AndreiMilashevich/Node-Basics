@@ -7,7 +7,7 @@
 <ul>
   <li>
     <% if (posts.length) { %>
-      <% posts.forEach(({ id, title, date, text, author }) => { %>
+      <% posts.forEach(({ id, title, createdAt, text, author }) => { %>
         <li>
           <article>
             <h2>
@@ -15,7 +15,7 @@
             </h2>
             <p><%= text %></p>
             <div class="info">
-              <span><%= date || 'No Date' %></span>
+              <span><%= createdAt.toLocaleDateString() || 'No Date' %></span>
               <span><%= author %></span>
             </div>
           </article>

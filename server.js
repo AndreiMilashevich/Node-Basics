@@ -3,12 +3,13 @@ const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Post = require('./models/post');
+const Contact = require('./models/contact');
+const key = require('./variables/mongo');
 
 const PORT = 3000;
-const db = 'mongodb+srv://ctaptex2:92DU4pT5lC4ncAcI@cluster0.ubprdhk.mongodb.net/?retryWrites=true&w=majority'
 const app = express();
 
-mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(key, {useNewUrlParser: true, useUnifiedTopology: true})
   .then((res) => console.log('db connected'))
   .catch((err) => console.log('Error'));
 
@@ -34,36 +35,37 @@ app.get('/', (req, res) => {
 
 app.get('/contacts', (req, res) => {
   const title = 'contacts';
-  const contacts = [
-    {name: 'Youtube', link: 'http://youtube.com/YauhenKavalchuk'},
-    {name: 'Twitter', link: 'http://github.com/YauhenKavalchuk'},
-    {name: 'GitHub', link: 'http://twitter.com/YauhenKavalchuk'},
-  ]
-  res.render(createPath('contacts'), {contacts, title});
+  Contact
+    .find()
+    .then((contacts) => res.render(createPath('contacts'), {contacts, title}))
+    .catch((err) => {
+      console.log(err);
+      res.render(createPath('error'), { title: 'error' });
+    });
 });
 
 app.get('/posts/:id', (req, res) => {
   const title = 'Post';
-  const post = {
-    id: '1',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quidem provident, dolores, vero laboriosam nemo mollitia impedit unde fugit sint eveniet, minima odio ipsum sed recusandae aut iste aspernatur dolorem.',
-    title: 'Post title',
-    date: '05.05.2021',
-    author: 'Yauhen',
-  };
-  res.render(createPath('post'), {title, post});
+  Post
+    .findById(req.params.id)
+    .then((post) => res.render(createPath('post'), {post, title}))
+    .catch((err) => {
+      console.log(err);
+      res.render(createPath('error'), { title: 'error' });
+    });
 });
 
 app.get('/posts', (req, res) => {
   const title = 'Posts';
-  const posts = [{
-    id: '1',
-    text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quidem provident, dolores, vero laboriosam nemo mollitia impedit unde fugit sint eveniet, minima odio ipsum sed recusandae aut iste aspernatur dolorem.',
-    title: 'Post title',
-    date: '05.05.2021',
-    author: 'Yauhen',
-  }];
-  res.render(createPath('posts'), {title, posts});
+
+  Post
+    .find()
+    .sort({ createdAt: -1 })
+    .then((posts) => res.render(createPath('posts'), {posts, title}))
+    .catch((err) => {
+      console.log(err);
+      res.render(createPath('error'), { title: 'error' });
+    });
 });
 
 app.get('/add-post', (req, res) => {
@@ -76,7 +78,7 @@ app.post('/add-post', (req, res) => {
   const post = new Post({ title, author, text });
   post
     .save()
-    .then((result) => res.send(result))
+    .then((result) => res.redirect('/posts'))
     .catch((err) => {
       console.log('err');
       res.render(createPath('error'), { title: 'error' });
