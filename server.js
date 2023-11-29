@@ -3,9 +3,9 @@ const path = require('path');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const Post = require('./models/post');
+const db = require('./variables/mongo');
 
 const PORT = 3000;
-const db = 'mongodb+srv://ctaptex2:92DU4pT5lC4ncAcI@cluster0.ubprdhk.mongodb.net/?retryWrites=true&w=majority'
 const app = express();
 
 mongoose.connect(db, {useNewUrlParser: true, useUnifiedTopology: true})
