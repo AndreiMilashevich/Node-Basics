@@ -1,5 +1,6 @@
 import express from "express";
 import serverless from "serverless-http";
+import cors = from "cors";
 import methodOverride from "method-override";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
@@ -15,6 +16,8 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+app.use(cors());
 
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
