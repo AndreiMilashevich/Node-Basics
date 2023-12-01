@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopol
   .catch((err) => console.log("Error", err));
 
 app.set("view engine", "ejs");
-app.set('views', path.join(__dirname,'..', '..', './views'));
+app.set('views', path.join(__dirname, 'views'));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
