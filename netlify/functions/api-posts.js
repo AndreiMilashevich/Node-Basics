@@ -1,6 +1,6 @@
 import express from "express";
 import serverless from "serverless-http";
-import cors = from "cors";
+import cors from "cors";
 import methodOverride from "method-override";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
