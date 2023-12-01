@@ -3,7 +3,7 @@ import express, { Router } from "express";
 import serverless from "serverless-http";
 const mongoose = require('mongoose');
 require('dotenv').config();
-const {getPosts} = require('../../routes/api-post-routes');
+const postApiRoutes = require('../../routes/api-post-routes');
 
 const api = express();
 
@@ -16,7 +16,7 @@ router.get("/hello", (req, res) => res.send("<h1>Hello World!</h1>"));
 
 api.use("/api/", router);
 
-api.use(getPosts);
+api.use(postApiRoutes);
 
 
 export const handler = serverless(api);
