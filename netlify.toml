@@ -1,8 +1,13 @@
+[build]
+publish = "build"
+functions = "api"
+
 [functions]
-  external_node_modules = ["express", "serverless-http", "method-override", "mongoose", "dotenv", "path", "ejs"]
-  node_bundler = "esbuild"
+external_node_modules = ["express", "mongoose", "serverless-http", "method-override", "ejs", "dotenv"]
+node_bundler = "esbuild"
+
 [[redirects]]
-  force = true
-  from = "/api/*"
-  status = 200
-  to = "/.netlify/functions/api/:splat"
+force = true
+from = "/*"
+status = 200
+to = "/.netlify/functions/app/:splat"
