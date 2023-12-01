@@ -1,23 +1,23 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const key = require('./variables/mongo');
+require('dotenv').config();
 const methodOverride = require('method-override');
+const postApiRoutes = require('./routes/api-post-routes');
 const postRouter = require('./routes/post-routes');
 const contactsRouter = require('./routes/contact-routes');
 const createPath = require('./helpers/create-path');
 
-const PORT = 3000;
 const app = express();
 
-mongoose.connect(key, {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(process.env.MONGO_URL, {useNewUrlParser: true, useUnifiedTopology: true})
   .then((res) => console.log('db connected'))
   .catch((err) => console.log('Error'));
 
 app.set('view engine', 'ejs');
 
-app.listen(PORT,  (error) => {
-  error ? console.log(error) : console.log(`listening port ${PORT}`);
+app.listen(process.env.PORT,  (error) => {
+  error ? console.log(error) : console.log(`listening port ${process.env.PORT}`);
 });
 
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
@@ -30,6 +30,7 @@ app.use(methodOverride('_method'));
 
 app.use(postRouter);
 app.use(contactsRouter);
+app.use(postApiRoutes);
 
 app.use((req, res) => {
   const title = 'Error page';
