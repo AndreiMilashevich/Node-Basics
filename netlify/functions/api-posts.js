@@ -4,7 +4,7 @@ import methodOverride from "method-override";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import postApiRoutes from "../../routes/api-post-routes";
-import contactsApiRoutes from "../../routes/api-contacts-routes";
+// import contactsApiRoutes from "../../routes/api-contacts-routes";
 
 dotenv.config();
 
@@ -21,6 +21,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride("_method"));
 
 app.use(postApiRoutes);
-app.use(contactsApiRoutes);
+// app.use(contactsApiRoutes);
 
 export const handler = serverless(app);
