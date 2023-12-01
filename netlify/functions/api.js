@@ -31,4 +31,4 @@ app.use(postRouter);
 app.use(contactsRouter);
 app.use(postApiRoutes);
 
-export const handler = serverless(api);
+export const handler = serverless(app);
